@@ -1,0 +1,46 @@
+extends layout
+block content
+
+  main.p-20
+   .search-list
+     form.search-form(method='get',action='')
+       input.control(type='text',placeholder='Search uploaded products')
+   
+   .d-flex.product-notice
+     //-h3.mr-auto #[a.new(href="/upload/new/swatch?product_id="+product._id) Add new Variant]
+     p Total variants listing: 
+       span.bold 
+        if count 
+          |#{count}
+        else
+          |0
+   if product
+      p Product Name: 
+        h3.in-blk= product.name
+   if variants
+     for variant in  variants
+    
+       .pd-listing__cont.d-flex.flex-col.flex-wrap
+          .pd-list
+            a.blk.pd-listing__img-cont(href="#")
+              if variant.images.length > 0
+                img.control.pd-listing__img(src="https://s3.eu-west-2.amazonaws.com/glammycare/"+variant.images[0].image)
+              else
+                img.control.pd-listing__img(src="/images/image-not-found.jpeg")
+
+            p.pd-listing__title  color: 
+             b #{variant.color}
+            //- p.pd-listing__price  &#8373; #{product.price}
+          .pd-listing__action.d-flex.flex-wrap
+              li.pd-list__dropdown.mr-20 #[span Variant]
+                ul.pd-dropdown
+                  li #[a.edit(href='/new/variant/description?product_id='+product._id+'&variant_id='+variant._id) Edit variant ]
+                  li #[a.trash(href="/variant/delete?product_id="+product.id+'&variant_id='+variant._id) Delete variant]
+                  //-li #[a.view(href="#") View product]
+       
+        
+   if variants.length < 1
+      h3 This product has no variants
+   
+   
+   

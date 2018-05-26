@@ -1,0 +1,46 @@
+extends layout
+block content
+
+    .upload-container
+      form.upload.description(method="post",action="/upload/new/description",id="myform",enctype="multipart/form-data")
+         
+        .saving Saving...
+         
+        .saved  All data saved!
+        .field
+          label(for="swatch_color") Variant Color
+          input#variant_color.control(type="text",placeholder="Product Name",name="variant_color",value= (product ? product.name : ''))
+        
+        div
+          input#product_id(type="hidden",value= product_id)
+          input#swatch_id(type="hidden",value= swatch_id)
+        h2 Variant Photos
+        #variant_image
+          label.none.browse-cont.d-flex.justify-center.align-items-center(for="image")
+             .loader-div
+               div.text-coral
+                 | UPLOADING. PLEASE WAIT...
+               img.loader(src="/images/loader.gif")
+             input#image.none(type="file",name="image",multiple)
+             .browse-img
+               img(src="/images/upload.svg")    
+        div.uploaded-photos
+          if images 
+            for image in images
+              .image-preview
+                .image-preview__img
+                  img.control(src='https://s3.eu-west-2.amazonaws.com/glammycare/'+image.image, alt='')
+                .image-preview__action
+                  input.image_key(type='hidden' value= image.image)
+                  button.image-preview__btn(type='button')
+                    img.image-preview__delete(src='/images/delete.svg' alt='')
+                    | Delete photo
+
+          
+      
+        div 
+        .field 
+          button.control.blk(type="button") Activate Variant 
+    
+  
+  

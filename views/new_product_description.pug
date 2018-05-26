@@ -1,0 +1,52 @@
+extends layout 
+block content
+    if product
+      .upload-container
+        form.upload.description(method="post",action="/upload/new/description",id="myform",enctype="multipart/form-data")
+           
+          .saving Saving...
+           
+          .saved  All data saved!
+          .field#about_field
+            label(for="about") Description
+            textarea#about(name="about") #{product.about}
+          
+          .field#how_to_use_field
+            label(for="description") How To Use
+            textarea#how_to_use(name="description") #{product.how_to_use}
+          
+          input(type='hidden',value=product.product,id='product_id')
+          .field#ingredients_field
+            label(for="description") Ingredients 
+            textarea#ingredients(name="ingredients")  #{product.ingredients}
+          h1 Photos
+          #product_image
+            label.none.browse-cont.d-flex.justify-center.align-items-center(for="image")
+              .loader-div
+                div.text-coral
+                  | UPLOADING. PLEASE WAIT...
+                img.loader(src="/images/loader.gif")
+              input.none(type="file",id="image",name="image",data-type='parent',multiple)
+              .browse-img
+                img(src="/images/upload.svg")
+            
+          div.uploaded-photos
+            if images 
+              for image in images 
+                .image-preview
+                  .image-preview__img
+                    img.control(src='https://s3.eu-west-2.amazonaws.com/glammycare/'+image.image, alt='')
+                  .image-preview__action
+                    input.image_key(type='hidden' value= image.image)
+                    button.image-preview__btn(type='button')
+                      img.image-preview__delete(src='/images/delete.svg' alt='')
+                      | Delete photo
+
+          
+      
+        div 
+        .field 
+          button.control.blk(type="button") Activate Product
+    
+  
+  
