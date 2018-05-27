@@ -9,34 +9,34 @@ var swatch_image = document.getElementById('swatch_image');
 //for categories,subcategories and categoires
  $('#main_category').on('change',function(e){
     var main_category_id = $(e.target).find(':selected').attr('attr_id');
+    var string = "";
    $.ajax({
      type:'post',
      url:'/category/find/subcategories?main_category_id='+main_category_id
    }).done(function(result){
-     for(var index in result){
-       console.log(index.name)
-     }
+    result.forEach(function(obj){
+       string += "<option attr_id="+obj._id + "  value="+obj.name+">"+obj.d_name+"</option>";
+
+    })
+     $('#sub_category').html(string);
    })
  })
 
 
-//replace fileds with ck_editor
-// function replace_ck_editor(id_to_select,name_to_give){
-//     ClassicEditor
-//       .create( document.querySelector( id_to_select ) )
-//       .then( editor => {
-//           name_to_give = editor;
-//       } )
-//       .catch( error => {
-//           console.error( error );
-//       } );
-// }
+ $('#sub_category').on('change',function(e){
+    var sub_category_id = $(e.target).find(':selected').attr('attr_id');
+    var string = "";
+   $.ajax({
+     type:'post',
+     url:'/category/find/categories?sub_category_id='+sub_category_id
+   }).done(function(result){
+    result.forEach(function(obj){
+       string += "<option attr_id="+obj._id + "  value="+obj.name+">"+obj.d_name+"</option>";
 
-//
-// //repalce fields with  ck_editor
-// replace_ck_editor("#about",about);
-// replace_ck_editor('#how_to_use',how_to_use);
-// replace_ck_editor('#ingredients',ingredients);
+    })
+       $('#category').html(string);
+   })
+ })
 
 
         ClassicEditor
@@ -147,7 +147,7 @@ function uploadImage(formdata,filename){
     if(xhr.readyState == 4 && xhr.status == 200){
       $('.loader-div').hide();
       var result = JSON.parse(xhr.responseText);
-      $('.uploaded-photos').append(`<div class="image-preview"> <div class="image-preview__img"><img src="${result.location}" alt="" class="control"></div><div class="image-preview__action"><input class='image_key' type="hidden" value="${result.key}"><button  type="button" class="image-preview__btn"><img src="/images/delete.svg" alt="" class="image-preview__delete">Delete photo</button></div></div>`);
+      $('.uploaded-photos').append(`<div class="image-preview"> <div class="image-preview__img"><img src="${result.location}" alt="" class="control"></div><div class="image-preview__action"><input class='image_key' type="hidden" value="${result.key}"><button  type="button" class="image-preview__btn">Delete photo</button></div></div>`);
       addImageToProduct(product_id,result.key);
     }
   }
@@ -191,10 +191,42 @@ function uploadVariantImage(formdata,filename){
     if(xhr.readyState == 4 && xhr.status == 200){
       $('.loader-div').hide();
       var result = JSON.parse(xhr.responseText);
-      $('.uploaded-photos').append(`<div class="image-preview"> <div class="image-preview__img"><img src="${result.location}" alt="" class="control"></div><div class="image-preview__action"><input class='image_key' type="hidden" value="${result.key}"><button  type="button" class="image-preview__btn"><img src="/images/delete.svg" alt="" class="image-preview__delete">Delete photo</button></div></div>`);
+      $('.uploaded-photos').append(`<div class="image-preview"> <div class="image-preview__img"><img src="${result.location}" alt="" class="control"></div><div class="image-preview__action"><input class='image_key' type="hidden" value="${result.key}"><button  type="button" class="image-preview__btn">Delete photo</button></div></div>`);
 
     }
   }
   xhr.send(formdata);
   console.log('hahaha this is variant image wae');
+}
+
+
+//delete images
+$('.uploaded-photos .image-preview__btn').on('click',function(e){
+ var target = $(e.target);
+ var image_key = target.prevAll('.image_key').attr('value');
+ var image_id = target.prevAll('.image_id').attr('value');
+    if(target.parents().is('.product-images')){
+      //delete image variant
+      deleteImage(target,'/product/delete/image?product_id='+product_id+'&',image_key,image_id);
+    }else{
+      //delete variant image
+     deleteImage(target,'/variant/delete/image?variant_id='+variant_id+'&',image_key,image_id);
+    }
+
+
+})
+
+
+  function deleteImage(target,url,image_key,image_id){
+  $.ajax({
+    type:'post',
+    url:url+'image_key='+image_key+'&image_id='+image_id
+
+  }).done(function(result){
+    removeDomImage(target);
+  })
+}
+
+function removeDomImage(target){
+  target.parents('.image-preview').remove();
 }

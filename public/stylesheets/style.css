@@ -231,6 +231,17 @@ form.upload.new {
   padding: 20px;
 }
 
+.image-preview__btn {
+  background: url(/images/delete.svg) no-repeat center left;
+  padding-left: 27px;
+  /* height: 30px; */
+  display: inline-block;
+  background-size: 15px 15px;
+  align-items: middle;
+  background-position: 0% 94%;
+  padding-bottom: 21px;
+}
+
 ul, li, p {
   margin: 0;
   padding: 0;
@@ -238,6 +249,10 @@ ul, li, p {
 
 li {
   list-style-type: none;
+}
+
+select, option {
+  text-transform: capitalize;
 }
 
 a.pd-listing__img-cont {

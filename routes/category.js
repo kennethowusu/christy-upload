@@ -25,4 +25,15 @@ router.post('/subcategory/add',categoryController.createSubCategory);
 
 //find subcategory
 router.post('/find/subcategories',categoryController.findSubCategories);
+
+
+//find categories
+router.post('/find/categories',categoryController.findCategories);
+
+//get category form
+router.get('/category/add',categoryController.getCategoryForm);
+
+router.post('/category/add',categoryController.createCategory);
+
+
 module.exports = router;

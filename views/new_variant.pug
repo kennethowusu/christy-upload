@@ -32,8 +32,8 @@ block content
                   img.control(src='https://s3.eu-west-2.amazonaws.com/glammycare/'+image.image, alt='')
                 .image-preview__action
                   input.image_key(type='hidden' value= image.image)
+                  input.image_id(type='hidden',value= image._id)
                   button.image-preview__btn(type='button')
-                    img.image-preview__delete(src='/images/delete.svg' alt='')
                     | Delete photo
 
           

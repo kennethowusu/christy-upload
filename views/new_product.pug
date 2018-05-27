@@ -33,21 +33,16 @@ block content
          
   
       .field
-        label(for="category") Product Category
-        select.control(id="category",name="category")
-         option(value="",selected) Select Category
-         option(value='makeup') Makeup
-         option(value='bath-and-body') Bath & body 
-         option(value='men') Men
-  
+        label(for="sub_category") Product Subcategory
+        select.control(id="sub_category",name="category")
+          option(value="",selected) Select Subcategory
+
       .field
-        label(for="subcategory") Product Subcategory
-  
-        select.control(id="subcategory",name="subcategory") 
-         option(value="",selected) Select Subcategory
-         option(value='makeup') Makeup
-         option(value='bath-and-body') Bath & body 
-         option(value='men') Men
+        label(for="category") Product Category
+        select.control(id="category",name="subcategory") 
+          option(value="",selected) Select  Category
+
+        
       .field 
         button.control.blk(type="submit") Add product
   

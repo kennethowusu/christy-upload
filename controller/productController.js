@@ -461,6 +461,72 @@ var product_id = req.query.product_id;
             })
         });//async.parallel
 
+}
 
+
+//delete product image
+module.exports.deleteProductImage = function(req,res,next){
+    var image_key = req.query.image_key;
+    var image_id = req.query.image_id;
+    var product_id = req.query.product_id;
+    var s3 = new aws.S3({
+      apiVersion:'2006-03-01',
+      endpoint:'https://s3.eu-west-2.amazonaws.com/',
+      accessKeyId:process.env.s3_access_key_id,
+      secretAccessKey:process.env.s3_secret_access_key,
+      region:'eu-west-2'
+    });
+    var params = {
+      Bucket:'glammycare',
+      Key:image_key
+    }
+    s3.deleteObject(params,function(err,deletedimage){
+      if(err){ return console.log(err)};
+         async.parallel({
+           delete_image:function(callback){
+              Image.deleteOne({_id:image_id}).exec(callback);
+           },
+           update_product:function(callback){
+            Product.update({_id:product_id},{$pull:{images:image_id}}).exec(callback);
+           }
+      },function(err,results){
+        if(err){console.log(err)}
+        res.send('image deleted');
+    });
+})//s3
+
+}
+
+
+//delete product image
+module.exports.deleteVariantImage = function(req,res,next){
+    var image_key = req.query.image_key;
+    var image_id = req.query.image_id;
+    var variant_id = req.query.variant_id;
+    var s3 = new aws.S3({
+      apiVersion:'2006-03-01',
+      endpoint:'https://s3.eu-west-2.amazonaws.com/',
+      accessKeyId:process.env.s3_access_key_id,
+      secretAccessKey:process.env.s3_secret_access_key,
+      region:'eu-west-2'
+    });
+    var params = {
+      Bucket:'glammycare',
+      Key:image_key
+    }
+      s3.deleteObject(params,function(err,deletedimage){
+        if(err){ return console.log(err)};
+           async.parallel({
+             delete_image:function(callback){
+                Variant_Image.deleteOne({_id:image_id}).exec(callback);
+             },
+             update_variant:function(callback){
+              Variant.update({_id:variant_id},{$pull:{images:image_id}}).exec(callback);
+             }
+        },function(err,results){
+          if(err){console.log(err)}
+          res.send('image deleted');
+      });
+  })//s3
 
 }

@@ -11,3 +11,9 @@ block content
   ul
     for sub_category in sub_categories
        li #[a(href="/category/category/add?sub_category_id="+sub_category._id) #{sub_category.d_name}]
+  
+  
+  h3 Categories 
+   ul 
+     for category in categories
+        li  #{category.d_name}

@@ -54,3 +54,11 @@ router.get('/variant/delete',productController.deleteVariant);
 
 //delete products
 router.get('/product/delete',productController.deleteProduct);
+
+
+//delete images
+router.post('/product/delete/image',productController.deleteProductImage);
+
+
+//delete variant image
+router.post('/variant/delete/image',productController.deleteVariantImage)
