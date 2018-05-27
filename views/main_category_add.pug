@@ -1,0 +1,14 @@
+extends layout
+block content
+  form(action="",method="post")
+    .field
+      label(for="name") Display Name
+      input.control(type="text",placeholder="Display Name",name="d_name",id="name")
+
+    .field
+      label(for="name") Name
+      input.control(type="text",placeholder='Name',name="name",id="name")
+
+    
+    div
+      button(type='submit') Create Cateogry

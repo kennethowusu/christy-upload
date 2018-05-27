@@ -26,11 +26,11 @@ block content
   
       .field
         label(for="main_category") Product Main Category
-        select.control(id="main_category",name="main_category")
+        select#main_category.control(name="main_category")
          option(value="",selected) Select Main Category
-         option(value='makeup') Makeup
-         option(value='bath-and-body') Bath & body 
-         option(value='men') Men
+          for main_category in main_categories
+            option(attr_id= main_category._id,value= main_category.name) #{main_category.d_name}
+         
   
       .field
         label(for="category") Product Category

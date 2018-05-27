@@ -6,6 +6,20 @@ var image =  document.getElementById('image');
 var variant_id = $('#swatch_id').val();
 var swatch_image = document.getElementById('swatch_image');
 
+//for categories,subcategories and categoires
+ $('#main_category').on('change',function(e){
+    var main_category_id = $(e.target).find(':selected').attr('attr_id');
+   $.ajax({
+     type:'post',
+     url:'/category/find/subcategories?main_category_id='+main_category_id
+   }).done(function(result){
+     for(var index in result){
+       console.log(index.name)
+     }
+   })
+ })
+
+
 //replace fileds with ck_editor
 // function replace_ck_editor(id_to_select,name_to_give){
 //     ClassicEditor

@@ -1,0 +1,13 @@
+extends layout
+block content
+  div
+    h3 Main Cateogories 
+    ul
+      for main_category in main_categories
+        li #[a(href="/category/subcategory/add?main_category_id="+main_category._id) #{main_category.d_name}]
+  
+  h3 Sub Categories    
+  p
+  ul
+    for sub_category in sub_categories
+       li #[a(href="/category/category/add?sub_category_id="+sub_category._id) #{sub_category.d_name}]

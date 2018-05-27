@@ -5,8 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+
+//require routes
 var index = require('./routes/index');
 var users = require('./routes/users');
+var category = require('./routes/category');
 var expressValidator = require('express-validator');
 var app = express();
 
@@ -29,6 +32,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressValidator());
+
+//use routes
+app.use('/category',category);
 app.use('/', index);
 app.use('/users', users);
 

@@ -9,6 +9,7 @@ var Description = require('../models/descriptionModel');
 var Image = require('../models/imageModel');
 var Variant = require('../models/variantModel');
 var Variant_Image = require('../models/variantImageModel');
+var Main_Category = require('../models/mainCategoryModel');
 var router = express.Router();
 
 //MODIFY FIELD FUNCTION
@@ -58,7 +59,11 @@ module.exports.getProducts  = function(req,res,next){
 
 //get new product form
 module.exports.getNewProductForm = function(req,res,next){
-  return res.render('new_product',{title:'Create New Product'});
+  Main_Category.find().exec(function(err,main_categories){
+    if(err){return console.log(err)}
+    return res.render('new_product',{title:'Create New Product',main_categories:main_categories});
+
+  })
 }
 
 //create new product

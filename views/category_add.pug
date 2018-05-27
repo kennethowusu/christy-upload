@@ -1,0 +1,14 @@
+extends layout
+block content
+  form(action="",method="post")
+  .field
+    label(for="name") Display Name
+    input.control(type="text",placeholder="Product Name",name="name",id="name",value= (product ? product.name : ''))
+
+  .field
+    label(for="price") Name
+    input.control(type="text",placeholder="price",name="price",id="price",value= (product ? product.price : ''))
+
+  .field
+    label(for="color") Product Color
+    input.control(type="text",placeholder="Optional ",name="color",id="color",value= (product ? product.color : ''))
