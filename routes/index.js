@@ -44,6 +44,12 @@ router.get('/new/variant/description',productController.getVariantForm);
 //update varinat cololr
 router.post('/new/variant/description/color',productController.updateVariantColor);
 
+//update variant name
+router.post('/new/variant/description/name',productController.updateProductName);
+
+//update product price
+router.post('/new/variant/description/price',productController.updateProductPrice);
+
 //variant image
 router.post('/new/variant/description/image',productController.uploadVariantImage);
 

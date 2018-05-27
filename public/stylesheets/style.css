@@ -82,12 +82,19 @@ textarea {
   text-align: center;
 }
 
-button[type=submit], button[type=button] {
+button[type=submit], button[type=button], a.button {
   background-color: coral;
   color: #fff;
   border: none;
   height: 37px;
   border-radius: 4px;
+}
+
+a.button {
+  color: #fff !important;
+  text-align: center;
+  border: none;
+  padding: 8px;
 }
 
 form {
@@ -231,6 +238,17 @@ form.upload.new {
   padding: 20px;
 }
 
+.inline {
+  display: inline;
+}
+
+@media (min-width: 500px) {
+  .products-cont {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
 .image-preview__btn {
   background: url(/images/delete.svg) no-repeat center left;
   padding-left: 27px;
@@ -253,6 +271,13 @@ li {
 
 select, option {
   text-transform: capitalize;
+}
+
+@media (min-width: 500px) {
+  .pd-listing__cont {
+    flex: 1 50%;
+    max-width: 50%;
+  }
 }
 
 a.pd-listing__img-cont {

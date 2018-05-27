@@ -16,6 +16,15 @@
 .p-20{
   padding:20px;
 }
+.inline{
+  display:inline;
+}
+.products-cont{
+  @media(min-width:500px){
+  display:flex;
+  flex-wrap:wrap;
+  }
+}
 .image-preview__btn{
   background: url(/images/delete.svg) no-repeat center left;
   padding-left: 27px;
@@ -36,6 +45,12 @@ li{
 }
 select,option{
   text-transform:capitalize;
+}
+.pd-listing__cont{
+  @media(min-width:500px){
+    flex: 1 50%;
+    max-width:50%
+  }
 }
 a.pd-listing__img-cont{
   width:200px;

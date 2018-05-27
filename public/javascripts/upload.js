@@ -181,6 +181,33 @@ $('#variant_color').on('focusout',function(e){
    })
 })
 
+//update  product name
+$('#edit_name').on('focusout',function(e){
+   $('.saving').show();
+  var name = $('#edit_name').val();
+   $.ajax({
+     type:'post',
+     url:'/new/variant/description/name?name='+name+'&product_id='+product_id
+   }).done(function(result){
+     showSaved();
+     console.log('done');
+   })
+})
+
+
+//update  product_price
+$('#edit_price').on('focusout',function(e){
+   $('.saving').show();
+  var price = $('#edit_price').val();
+   $.ajax({
+     type:'post',
+     url:'/new/variant/description/price?price='+price+'&product_id='+product_id
+   }).done(function(result){
+     showSaved();
+     console.log('done');
+   })
+})
+
 //upload variant image
 function uploadVariantImage(formdata,filename){
   $('.loader-div').css('display','flex');

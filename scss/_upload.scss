@@ -81,13 +81,19 @@ textarea{
 .text-center{
   text-align:center;
 }
-button[type=submit],button[type=button]{
+button[type=submit],button[type=button],a.button{
   background-color:coral;
   color:#fff;
   border:none;
   height:37px;
   border-radius:4px;
 
+}
+a.button{
+  color:#fff !important;
+  text-align: center;
+  border:none;
+  padding:8px
 }
 form{
   padding:20px;

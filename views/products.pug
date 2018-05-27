@@ -16,36 +16,40 @@ block content
             |0
     .listing-title__cont
       h2.listing__title Uploded listings    
-    if products 
-      for product in  products
-     
-        .pd-listing__cont.d-flex.flex-col.flex-wrap
-           .pd-list
-             a.blk.pd-listing__img-cont(href="#")
-               if product.images.length > 0
-                 img.control.pd-listing__img(src="https://s3.eu-west-2.amazonaws.com/glammycare/"+product.images[0].image)
-               else
-                 img.control.pd-listing__img(src="/images/image-not-found.jpeg")
+      
+    div.products-cont
+        if products 
+          for product in  products
+         
+            .pd-listing__cont.d-flex.flex-col.flex-wrap
+               .pd-list
+                 a.blk.pd-listing__img-cont(href="#")
+                   if product.images.length > 0
+                     img.control.pd-listing__img(src="https://s3.eu-west-2.amazonaws.com/glammycare/"+product.images[0].image)
+                   else
+                     img.control.pd-listing__img(src="/images/image-not-found.jpeg")
 
-             p.pd-listing__title  #{product.name}
-             p.pd-listing__price  &#8373; #{product.price}
-        
-           .pd-listing__action.d-flex.flex-wrap
-               li.pd-list__dropdown.mr-20 #[span Product]
-                ul.pd-dropdown
-                  li #[a.edit(href="/new/product/description?product_id="+product._id) Edit product ]
-                  li #[a.trash(href="/product/delete?product_id="+product._id) Delete product]
-                  li #[a.view(href="#") View product]
-        
-               li.pd-list__dropdown #[span Variant]
-                 ul.pd-dropdown
-                   li #[a.view(href="/variants?product_id="+product._id) View Variants]
-                   li #[a.add(href="/new/variant?product_id="+product._id) Add New]
+                 p.pd-listing__title
+                  |Name :
+                  b #{product.name}
+                 p.pd-listing__price  &#8373; #{product.price}
+            
+               .pd-listing__action.d-flex.flex-wrap
+                   li.pd-list__dropdown.mr-20 #[span Product]
+                    ul.pd-dropdown
+                      li #[a.edit(href="/new/product/description?product_id="+product._id) Edit product ]
+                      li #[a.trash(href="/product/delete?product_id="+product._id) Delete product]
+                      //-li #[a.view(href="#") View product]
+            
+                   li.pd-list__dropdown #[span Variant]
+                     ul.pd-dropdown
+                       li #[a.view(href="/variants?product_id="+product._id) View Variants]
+                       li #[a.add(href="/new/variant?product_id="+product._id) Add New]
 
 
-    else
-      h3 No products uploaded yet
+        else
+          h3 No products uploaded yet
 
 
-        
-  
+            
+      

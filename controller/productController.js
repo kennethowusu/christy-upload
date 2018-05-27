@@ -126,9 +126,12 @@ module.exports.getNewDescription = function(req,res,next){
     find_images:function(callback){
       Image.find({product:req.query.product_id}).exec(callback);
     },
+    find_product:function(callback){
+      Product.findById(req.query.product_id).select('name price').exec(callback);
+    },
   },function(err,results){
      if (err){console.log(err)}
-     res.render('new_product_description',{product:results.description,images:results.find_images})
+     res.render('new_product_description',{product:results.description,images:results.find_images,edit:results.find_product})
   })//function
 }
 
@@ -151,6 +154,28 @@ module.exports.update_ingredients = function(req,res,next){
 }
 
 
+//update product name
+module.exports.updateProductName = function(req,res,next){
+  var product_id = req.query.product_id;
+  var name = req.query.name;
+
+
+  Product.update({_id:product_id},{$set:{name:name}},function(err,updated){
+    if(err){console.log(err)}
+    res.send('updated');
+  })
+}
+
+//update  product price
+module.exports.updateProductPrice = function(req,res,next){
+  var product_id = req.query.product_id;
+  var price  = req.query.price;
+
+  Product.update({_id:product_id},{$set:{price:price}},function(err,updated){
+    if(err){console.log(err)}
+    res.send('updated');
+  })
+}
 
 //for images
 module.exports.uploadImage = function(req,res,next){
@@ -243,8 +268,17 @@ module.exports.getVariantForm = function(req,res,next){
   product_id = req.query.product_id;
   variant_id = req.query.variant_id;
 
-  Variant_Image.find({variant:req.query.variant_id}).exec(function(err,images){
-    res.render('new_variant',{product_id:product_id,swatch_id:variant_id,images:images});
+  async.parallel({
+    find_variant_color:function(callback){
+      Variant.findById(variant_id).exec(callback);
+    },
+
+    find_variant_images:function(callback){
+      Variant_Image.find({variant:req.query.variant_id}).exec(callback);
+    }
+  },function(err,results){
+    if(err){console.log(err)}
+     res.render('new_variant',{product_id:product_id,swatch_id:variant_id,images:results.find_variant_images,variant:results.find_variant_color});
   })
 }
 

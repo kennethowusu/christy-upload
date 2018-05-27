@@ -7,6 +7,13 @@ block content
           .saving Saving...
            
           .saved  All data saved!
+          .field
+            label(for="edit_name") Product Name
+            input#edit_name.control(type="text",placeholder="Product Name",name="variant_color",value= (edit ? edit.name : ''))
+              
+          .field
+             label(for="edit_price") Product Color
+             input#edit_price.control(type="text",placeholder="Product Name",name="variant_color",value= (edit ? edit.price : ''))
           .field#about_field
             label(for="about") Description
             textarea#about(name="about") #{product.about}
@@ -44,9 +51,9 @@ block content
 
           
       
-        div 
-        .field 
-          button.control.blk(type="button") Activate Product
-    
+          div 
+          .field 
+            a.button.control.blk(href="/") Back to Products
+      
   
   

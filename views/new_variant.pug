@@ -9,7 +9,7 @@ block content
         .saved  All data saved!
         .field
           label(for="swatch_color") Variant Color
-          input#variant_color.control(type="text",placeholder="Product Name",name="variant_color",value= (product ? product.name : ''))
+          input#variant_color.control(type="text",placeholder="Product Name",name="variant_color",value= (variant ? variant.color : ''))
         
         div
           input#product_id(type="hidden",value= product_id)
@@ -40,7 +40,6 @@ block content
       
         div 
         .field 
-          button.control.blk(type="button") Activate Variant 
-    
+          a.button.control.blk(href="/variants?product_id="+product_id) Back to Variants
   
   
