@@ -39,7 +39,12 @@ block content
                     li #[a.trash(href="/variant/delete?product_id="+product.id+'&variant_id='+variant._id) Delete variant]
                     //-li #[a.view(href="#") View product]
          
-        
+                    
+   div               
+      .field 
+          a.button.in-blk(href="/") Back to Products
+                    
+    
    if variants.length < 1
       h3 This product has no variants
    
