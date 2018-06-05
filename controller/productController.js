@@ -32,7 +32,33 @@ var router = express.Router();
 
 //get products
 module.exports.getProducts  = function(req,res,next){
-          // res.render("newProduct");
+    if(req.query.search){
+      var items = req.query.search;
+     var search = new RegExp(items,'i');
+    async.parallel({
+      count_products:function(callback){
+        Product.find({name:search}).count().exec(callback);
+      },
+      products:function(callback){
+         Product.find({name:search}).populate('images').populate({
+           path:'variants',
+           model:"Variant",
+           populate:{
+             path:'images',
+             model:"Variant_Image"
+           }
+         }).populate('description').exec(callback);
+      },
+
+    },function(err,results){
+      if(err){return next(err);}
+      console.log(util.inspect(results.products, false, null));
+      // console.log(results.images);
+      res.render('products',{search_count:results.count_products,products:results.products,title: 'Upload new products | kenbuckettest'})
+    })
+  }
+    else{
+      // res.render("newProduct");
     async.parallel({
       count_products:function(callback){
         Product.find().count().exec(callback);
@@ -52,8 +78,9 @@ module.exports.getProducts  = function(req,res,next){
       if(err){return next(err);}
       console.log(util.inspect(results.products, false, null));
       // console.log(results.images);
-      res.render('products',{count:results.count_products,products:results.products,title: 'Upload new products | Glammycare'})
+      res.render('products',{count:results.count_products,products:results.products,title: 'Upload new products | kenbuckettest'})
     })
+  }
 }
 
 
@@ -179,8 +206,6 @@ module.exports.updateProductPrice = function(req,res,next){
 
 //for images
 module.exports.uploadImage = function(req,res,next){
-
-
   var s3 = new aws.S3({
     apiVersion:'2006-03-01',
     endpoint:'https://s3.eu-west-2.amazonaws.com/',
@@ -188,48 +213,54 @@ module.exports.uploadImage = function(req,res,next){
     secretAccessKey:process.env.s3_secret_access_key,
     region:'eu-west-2'
   });
-  var upload = multer({
-   storage: multerS3({
-     s3: s3,
-     bucket: 'glammycare',
-     metadata: function (req, file, cb) {
-       cb(null, {fieldName: file.originalname});
-     },
-     key: function (req, file, cb) {
-       cb(null, req.query.filename);
-     }
-   })
-  }).single('image');
+      var upload = multer({
+       storage: multerS3({
+         s3: s3,
+         bucket: 'kenbuckettest',
+         metadata: function (req, file, cb) {
+           cb(null, {fieldName: file.originalname});
+         },
+         key: function (req, file, cb) {
+           cb(null, req.query.filename);
+         }
+       })
+     }).single('image');//upload
+
   upload(req,res,function(err){
       if(err){
         console.log(err);
         res.send(err);
       }else{
-        console.log(req.file);
-        res.send(req.file);
-      }
-    })
-}
 
- module.exports.addImageToProduct = function(req,res,next){
-   var image = new Image({
-   product:req.body.product_id,
-  image : req.body.keyname
+    //add image to product
+        var image = new Image({
+        product:req.query.product_id,
+       image : req.query.filename
 
-});
+     });
 
     image.save(function(err,image){
-     if(err){console.log(err)
-     }else{
-       Product.findById(req.body.product_id).exec(function(err,product){
-         product.images.push(image._id);
-         product.save(function(err,returnedData){
-           if(err){return next(err)}
-         })
-       })
-       res.send('image added');
-     }
-    })
+          if(err){console.log(err)
+          }else{
+            Product.findById(req.query.product_id).exec(function(err,product){
+              product.images.push(image._id);
+              product.save(function(err,returnedData){
+                if(err){return next(err)}
+
+                 req.file['image_id'] = image._id;
+                res.send(req.file);
+              })//product.save
+            })
+
+          }//image else
+      })//images.save
+
+    }//else
+    })//upload
+
+}//uploadImage
+
+ module.exports.addImageToProduct = function(req,res,next){
  }
 
 module.exports.createVariant = function(req,res,next){
@@ -327,7 +358,7 @@ module.exports.uploadVariantImage = function(req,res,next){
     var upload = multer({
      storage: multerS3({
        s3: s3,
-       bucket: 'glammycare',
+       bucket: 'kenbuckettest',
        metadata: function (req, file, cb) {
          cb(null, {fieldName: file.originalname});
        },
@@ -409,11 +440,11 @@ module.exports.deleteVariant = function(req,res,next){
 
    returnedImages.forEach(function(item){
         images.push({"Key":item.image});
-
+n
 
    })
    var params = {
-     Bucket:'glammycare',
+     Bucket:'kenbuckettest',
      Delete:{
        Objects:images
      }
@@ -483,7 +514,7 @@ var product_id = req.query.product_id;
            });
            //s3
            var params = {
-             Bucket:'glammycare',
+             Bucket:'kenbuckettest',
              Delete:{
                Objects:images
              }
@@ -511,7 +542,7 @@ module.exports.deleteProductImage = function(req,res,next){
       region:'eu-west-2'
     });
     var params = {
-      Bucket:'glammycare',
+      Bucket:'kenbuckettest',
       Key:image_key
     }
     s3.deleteObject(params,function(err,deletedimage){
@@ -545,7 +576,7 @@ module.exports.deleteVariantImage = function(req,res,next){
       region:'eu-west-2'
     });
     var params = {
-      Bucket:'glammycare',
+      Bucket:'kenbuckettest',
       Key:image_key
     }
       s3.deleteObject(params,function(err,deletedimage){

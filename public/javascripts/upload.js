@@ -141,14 +141,17 @@ image.onchange = function(){
 function uploadImage(formdata,filename){
   $('.loader-div').css('display','flex');
   var xhr = new XMLHttpRequest();
-  xhr.open('post','/new/product/description/image?filename='+filename);
+  xhr.open('post','/new/product/description/image?filename='+filename+'&product_id='+product_id);
 
   xhr.onreadystatechange = function(){
     if(xhr.readyState == 4 && xhr.status == 200){
       $('.loader-div').hide();
       var result = JSON.parse(xhr.responseText);
-      $('.uploaded-photos').append(`<div class="image-preview"> <div class="image-preview__img"><img src="${result.location}" alt="" class="control"></div><div class="image-preview__action"><input class='image_key' type="hidden" value="${result.key}"><button  type="button" class="image-preview__btn">Delete photo</button></div></div>`);
-      addImageToProduct(product_id,result.key);
+
+      // addImageToProduct(product_id,result.key);
+      var image = $('<div class="image-preview"> <div class="image-preview__img"><img src="'+result.location+'" alt="" class="control"></div><div class="image-preview__action"><input class="image_key" type="hidden" value="'+result.key+'"><input class="image_id" type="hidden" value="'+result.image_id+'"><button  type="button" class="image-preview__btn">Delete photo</button></div></div>');
+      $('.uploaded-photos').append(image);
+
     }
   }
   xhr.send(formdata);
@@ -169,7 +172,7 @@ function addImageToProduct(product_id,keyname){
 //FOR VARIANT
 
 //update  variant color
-$('#variant_color').on('focusout',function(e){
+$('#variant_color').on('change',function(e){
    $('.saving').show();
   var data =  $(e.target).val();
    $.ajax({
@@ -182,7 +185,7 @@ $('#variant_color').on('focusout',function(e){
 })
 
 //update  product name
-$('#edit_name').on('focusout',function(e){
+$('#edit_name').on('change',function(e){
    $('.saving').show();
   var name = $('#edit_name').val();
    $.ajax({
@@ -196,7 +199,7 @@ $('#edit_name').on('focusout',function(e){
 
 
 //update  product_price
-$('#edit_price').on('focusout',function(e){
+$('#edit_price').on('change',function(e){
    $('.saving').show();
   var price = $('#edit_price').val();
    $.ajax({
@@ -226,9 +229,7 @@ function uploadVariantImage(formdata,filename){
   console.log('hahaha this is variant image wae');
 }
 
-
-//delete images
-$('.uploaded-photos .image-preview__btn').on('click',function(e){
+$('.uploaded-photos ').on('click', '.image-preview__btn',function(e){
  var target = $(e.target);
  var image_key = target.prevAll('.image_key').attr('value');
  var image_id = target.prevAll('.image_id').attr('value');

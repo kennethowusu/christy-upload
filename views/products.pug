@@ -4,18 +4,26 @@ block content
   main.p-20
     .search-list
       form.search-form(method='get',action='')
-        input.control(type='text',placeholder='Search uploaded products')
+        input.control(type='text', name="search",placeholder='Search uploaded products')
 
     .d-flex.product-notice
+      
       h3.mr-auto #[a.new(href="/new/product") Add new Product]
-      p Total product listing: 
-        span.bold 
-          if count
-            |#{count}
-          else
-            |0
+      if !count
+        a.mr-auto(href="/") Reset search
+      if count
+        p Total product listing: 
+          span.bold 
+            | #{count}
+      else
+        p Search results:
+          span.bold
+            | #{search_count}
     .listing-title__cont
-      h2.listing__title Uploded listings    
+      if count
+        h2.listing__title Uploded listings
+      else
+        h2.listing__title Searched listings     
       
     div.products-cont
         if products 

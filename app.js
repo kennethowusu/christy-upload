@@ -21,9 +21,9 @@ app.set('view engine', 'pug');
 
 require('dotenv').config();
 //connect to db
-var connection = 'mongodb://kenneth:password123@ds129770.mlab.com:29770/glammycare';
- // mongoose.connect("mongodb://localhost/glammycare");
- mongoose.connect(connection);
+// var connection = 'mongodb://kenneth:password123@ds129770.mlab.com:29770/glammycare';
+  mongoose.connect("mongodb://localhost/glammycare");
+ // mongoose.connect(connection);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console,'connection error'));
 // uncomment after placing your favicon in /public
