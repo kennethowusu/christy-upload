@@ -54,7 +54,7 @@ module.exports.getProducts  = function(req,res,next){
       if(err){return next(err);}
       console.log(util.inspect(results.products, false, null));
       // console.log(results.images);
-      res.render('products',{search_count:results.count_products,products:results.products,title: 'Upload new products | kenbuckettest'})
+      res.render('products',{search_count:results.count_products,products:results.products,title: 'Upload new products | glammycare'})
     })
   }
     else{
@@ -71,14 +71,14 @@ module.exports.getProducts  = function(req,res,next){
              path:'images',
              model:"Variant_Image"
            }
-         }).populate('description').exec(callback);
+         }).populate('description').limit(6).exec(callback);
       },
 
     },function(err,results){
       if(err){return next(err);}
       console.log(util.inspect(results.products, false, null));
       // console.log(results.images);
-      res.render('products',{count:results.count_products,products:results.products,title: 'Upload new products | kenbuckettest'})
+      res.render('products',{count:results.count_products,products:results.products,title: 'Upload new products | glammycare'})
     })
   }
 }
@@ -216,7 +216,7 @@ module.exports.uploadImage = function(req,res,next){
       var upload = multer({
        storage: multerS3({
          s3: s3,
-         bucket: 'kenbuckettest',
+         bucket: 'glammycare',
          metadata: function (req, file, cb) {
            cb(null, {fieldName: file.originalname});
          },
@@ -358,7 +358,7 @@ module.exports.uploadVariantImage = function(req,res,next){
     var upload = multer({
      storage: multerS3({
        s3: s3,
-       bucket: 'kenbuckettest',
+       bucket: 'glammycare',
        metadata: function (req, file, cb) {
          cb(null, {fieldName: file.originalname});
        },
@@ -444,7 +444,7 @@ n
 
    })
    var params = {
-     Bucket:'kenbuckettest',
+     Bucket:'glammycare',
      Delete:{
        Objects:images
      }
@@ -514,7 +514,7 @@ var product_id = req.query.product_id;
            });
            //s3
            var params = {
-             Bucket:'kenbuckettest',
+             Bucket:'glammycare',
              Delete:{
                Objects:images
              }
@@ -542,7 +542,7 @@ module.exports.deleteProductImage = function(req,res,next){
       region:'eu-west-2'
     });
     var params = {
-      Bucket:'kenbuckettest',
+      Bucket:'glammycare',
       Key:image_key
     }
     s3.deleteObject(params,function(err,deletedimage){
@@ -576,7 +576,7 @@ module.exports.deleteVariantImage = function(req,res,next){
       region:'eu-west-2'
     });
     var params = {
-      Bucket:'kenbuckettest',
+      Bucket:'glammycare',
       Key:image_key
     }
       s3.deleteObject(params,function(err,deletedimage){
