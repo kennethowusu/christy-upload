@@ -71,7 +71,7 @@ module.exports.getProducts  = function(req,res,next){
              path:'images',
              model:"Variant_Image"
            }
-         }).populate('description').limit(6).exec(callback);
+         }).populate('description').sort({created:-1}).limit(6).exec(callback);
       },
 
     },function(err,results){
